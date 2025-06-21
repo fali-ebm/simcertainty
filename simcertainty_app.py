@@ -2,7 +2,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
 
-st.title("Forest Plot Generator")
+st.title("simcertainty.app: Forest Plot Generator")
 
 st.sidebar.header("Input Parameters")
 
@@ -43,6 +43,11 @@ ax.errorbar(point_estimates, y_pos,
                   np.array(upper_bounds) - np.array(point_estimates)],
             fmt='o', color='black', ecolor='gray', capsize=5)
 
+# Add CI values on each side of the bar
+for i in range(n):
+    ax.text(lower_bounds[i] - 5, y_pos[i], str(int(lower_bounds[i])), va='center', ha='right', fontsize=9, color='black')
+    ax.text(upper_bounds[i] + 5, y_pos[i], str(int(upper_bounds[i])), va='center', ha='left', fontsize=9, color='black')
+
 # Vertical reference line
 ax.axvline(x=0, color='red', linestyle='--')
 
@@ -52,7 +57,7 @@ ax.set_yticklabels(y_labels)
 ax.set_xticks(x_ticks)
 ax.set_xlim(-200, 200)
 ax.set_xlabel("Events per 1,000 individuals")
-ax.set_title("Forest Plot of Event Rates with Colored Threshold Zones")
+ax.set_title("simcertainty.app: Forest Plot of Event Rates with Colored Threshold Zones")
 ax.invert_yaxis()
 ax.grid(True, axis='x', linestyle='--', alpha=0.7)
 
