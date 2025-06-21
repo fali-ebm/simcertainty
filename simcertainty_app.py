@@ -2,7 +2,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
 
-st.title("simcertainty.app: Forest Plot Generator")
+st.title("Event Rates and Confidence Intervals per 1,000 Individuals")
 
 st.sidebar.header("Input Parameters")
 
@@ -57,9 +57,21 @@ ax.set_yticklabels(y_labels)
 ax.set_xticks(x_ticks)
 ax.set_xlim(-200, 200)
 ax.set_xlabel("Events per 1,000 individuals")
-ax.set_title("simcertainty.app: Forest Plot of Event Rates with Colored Threshold Zones")
+ax.set_title("simcertainty.app: Interactive Confidence Interval Forest Plot")
 ax.invert_yaxis()
 ax.grid(True, axis='x', linestyle='--', alpha=0.7)
 
 # Show plot
 st.pyplot(fig)
+
+# Downloadable TIFF file
+import io
+buffer = io.BytesIO()
+fig.savefig(buffer, format='tiff', dpi=300, bbox_inches='tight')
+
+st.download_button(
+    label="Download plot as .tiff",
+    data=buffer,
+    file_name="forestplot.tiff",
+    mime="image/tiff"
+)
